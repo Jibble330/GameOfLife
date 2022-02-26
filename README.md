@@ -1,7 +1,7 @@
 # Conway's Game of Life
 Recreation of Conway's Game of Life in python
 
-Use arrow keys to move around, and space to start and pause the game.
+Use arrow keys to move around, and space to start and pause the game. <br/>
 Example of how it plays:
 ![Conway's Game of Life 2022-02-25 22-40-19](https://user-images.githubusercontent.com/87543311/155833027-6cde3fe1-1000-4236-8e3f-f1bc2f259941.gif)
 
