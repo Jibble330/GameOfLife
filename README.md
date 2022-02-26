@@ -1,7 +1,7 @@
 # Conway's Game of Life
-Recreation of Conway's Game of Life in python
+Recreation of Conway's Game of Life in Python
 
-Use arrow keys to move around, and space to start and pause the game. <br/>
+Use arrow keys to move your view, space to start and pause the game, and click on tiles to switch them on or off. <br/>
 
 ---
 
