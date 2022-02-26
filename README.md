@@ -1,7 +1,7 @@
 # Conway's Game of Life
 Recreation of Conway's Game of Life in Python
 
-Use arrow keys to shift your view, space to start and pause the game, and click on tiles to switch them on or off. <br/>
+Use arrow keys to shift your view, space to start and pause the game, click on tiles to switch them on or off, and finally **esc** to exit. <br/>
 
 ---
 
