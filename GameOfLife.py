@@ -125,7 +125,7 @@ def renderTiles(offsetX, offsetY):
         for y in range(0-int(offsetY*tileSize), SCREEN_HEIGHT+abs(int(offsetY*tileSize)), tileSize):
             x_coord = int(x/tileSize)
             y_coord = int(y/tileSize)
-            rect = pygame.Rect(x+math.ceil(offsetX)*tileSize, y+math.floor(offsetY)*tileSize, tileSize, tileSize)
+            rect = pygame.Rect(x+round(offsetX)*tileSize, y+math.floor(offsetY)*tileSize, tileSize, tileSize)
             if getValue(x_coord+gridOffset[0], y_coord+gridOffset[1]) == 1:
                 pygame.draw.rect(screen, BLACK, rect)
             else:
