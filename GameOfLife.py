@@ -164,11 +164,14 @@ def Update():
         pygame.draw.rect(screen, DARK_GREY, pause1)
         pygame.draw.rect(screen, DARK_GREY, pause2)
     sliderBack = pygame.Rect(SCREEN_WIDTH-equivilant10px*26, SCREEN_HEIGHT-equivilant10px*4, equivilant10px*22, equivilant10px*2)
-    sliderOutline = pygame.Rect((SCREEN_WIDTH-equivilant10px*26)-2, (SCREEN_HEIGHT-equivilant10px*4)-2, (equivilant10px*22)+4, (equivilant10px*2)+4)
+    sliderOutline = pygame.Rect((SCREEN_WIDTH-equivilant10px*25)-2, (SCREEN_HEIGHT-equivilant10px*4)-2, (equivilant10px*20)+4, (equivilant10px*2)+4)
+#    pygame.draw.circle(screen,WHITE,(SCREEN_WIDTH-equivilant10px*25),(SCREEN_HEIGHT-equivilant10px*3)),11) #(Untested)
+#    pygame.draw.circle(screen,DARK_GREY,(sliderPos,(SCREEN_HEIGHT-equivilant10px*4)+1),9) #(Untested)
     slider = pygame.Rect(sliderPos, (SCREEN_HEIGHT-equivilant10px*4)+1, (equivilant10px*2)-2, (equivilant10px*2)-2)
     pygame.draw.rect(screen, WHITE, sliderBack)
     pygame.draw.rect(screen, DARK_GREY, sliderOutline, 2)
     pygame.draw.rect(screen, DARK_GREY, slider)
+#    pygame.draw.circle(screen,DARK_GREY,(sliderPos,(SCREEN_HEIGHT-equivilant10px*4)+1),9) #(Untested)
     pygame.display.flip()
 
 def main():
