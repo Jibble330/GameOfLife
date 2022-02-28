@@ -155,11 +155,20 @@ def setValue(x, y, value):
 def Update():
     global frame
     global paused
+    global sliderBack
+    global sliderOutline
+    global slider
     if paused:
         pause1 = pygame.Rect(SCREEN_WIDTH-equivilant10px*5, equivilant10px*3, equivilant10px*2, equivilant10px*6)
         pause2 = pygame.Rect(SCREEN_WIDTH-equivilant10px*8, equivilant10px*3, equivilant10px*2, equivilant10px*6)
         pygame.draw.rect(screen, DARK_GREY, pause1)
         pygame.draw.rect(screen, DARK_GREY, pause2)
+    sliderBack = pygame.Rect(SCREEN_WIDTH-equivilant10px*26, SCREEN_HEIGHT-equivilant10px*4, equivilant10px*22, equivilant10px*2)
+    sliderOutline = pygame.Rect((SCREEN_WIDTH-equivilant10px*26)-2, (SCREEN_HEIGHT-equivilant10px*4)-2, (equivilant10px*22)+4, (equivilant10px*2)+4)
+    slider = pygame.Rect(sliderPos, (SCREEN_HEIGHT-equivilant10px*4)+1, (equivilant10px*2)-2, (equivilant10px*2)-2)
+    pygame.draw.rect(screen, WHITE, sliderBack)
+    pygame.draw.rect(screen, DARK_GREY, sliderOutline, 2)
+    pygame.draw.rect(screen, DARK_GREY, slider)
     pygame.display.flip()
 
 def main():
@@ -168,6 +177,8 @@ def main():
     global clock
     global frame
     global paused
+    global speed
+    global sliderPos
     print("Starting...")
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -186,7 +197,13 @@ def main():
             mousePos = pygame.mouse.get_pos()
             if mousePos[0] > SCREEN_WIDTH-equivilant10px*25 and mousePos[0] < SCREEN_WIDTH-equivilant10px*5:
                 sliderPos = mousePos[0]-equivilant10px
-                speed = ((mousePos[0]-(SCREEN_WIDTH-equivilant10px*25))/(equivilant10px*3.33))*2
+                speed = ((mousePos[0]-(SCREEN_WIDTH-equivilant10px*25))/(equivilant10px*3.33))
+            elif mousePos[0] > SCREEN_WIDTH-equivilant10px*25:
+                sliderPos = SCREEN_WIDTH-equivilant10px*6
+                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*26))/(equivilant10px*3.33))
+            elif mousePos[0] < SCREEN_WIDTH-equivilant10px*5:
+                sliderPos = (SCREEN_WIDTH-equivilant10px*26)+1
+                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*26))/(equivilant10px*3.33))
         
         for event in pygame.event.get():
             #Get key events -->
@@ -256,15 +273,11 @@ def main():
                     gridOffset[0] += round(tilesX()/20)
                     gridOffset[1] += round(tilesY()/20)
                 tileSize = round(SCREEN_HEIGHT/(21.6*((scroll+10)/10)))
-        sliderBack = pygame.Rect(SCREEN_WIDTH-equivilant10px*26, SCREEN_HEIGHT-equivilant10px*4, equivilant10px*22, equivilant10px*2)
-        slider = pygame.Rect(sliderPos, SCREEN_HEIGHT-equivilant10px*4, equivilant10px*2, equivilant10px*2)
         if not paused and frame%round(FPS/speed) == 0:
             nextGen()
         #Render next frame -->
         screen.fill(WHITE)
         renderTiles(0, 0)
-        pygame.draw.rect(screen, GREY, sliderBack)
-        pygame.draw.rect(screen, BLACK, slider)
         Update()
         clock.tick(FPS)
 main()
