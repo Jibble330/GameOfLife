@@ -123,9 +123,9 @@ def getSurrounding(x, y): #Get the number of alive tiles arround 1 tile
 def renderTiles(offsetX, offsetY):
     for x in range(0-int(offsetX*tileSize), SCREEN_WIDTH+abs(int(offsetX*tileSize)), tileSize):
         for y in range(0-int(offsetY*tileSize), SCREEN_HEIGHT+abs(int(offsetY*tileSize)), tileSize):
+            rect = pygame.Rect(x+round(offsetX)*tileSize, y+round(offsetY)*tileSize, tileSize, tileSize)
             x_coord = int(x/tileSize)
             y_coord = int(y/tileSize)
-            rect = pygame.Rect(x+round(offsetX)*tileSize, y+math.floor(offsetY)*tileSize, tileSize, tileSize)
             if getValue(x_coord+gridOffset[0], y_coord+gridOffset[1]) == 1:
                 pygame.draw.rect(screen, BLACK, rect)
             else:
@@ -232,19 +232,19 @@ def main():
                     gridOffset[0] += tilesX()
                 #Move down
                 elif event.key == pygame.K_DOWN:
-                    for y in range(int(1.8*tilesY())):
+                    for x in range(int(3*tilesY())):
                         screen.fill(WHITE)
-                        renderTiles(0, y/-1.8)
+                        renderTiles(0, x/-3)
                         Update()
-                        clock.tick(1.8*tilesY())
+                        clock.tick(3*tilesY())
                     gridOffset[1] += tilesY()
                 #Move up
                 elif event.key == pygame.K_UP:
-                    for y in range(int(1.8*tilesY())):
+                    for x in range(int(3*tilesY())):
                         screen.fill(WHITE)
-                        renderTiles(0, y/1.8)
+                        renderTiles(0, x/3)
                         Update()
-                        clock.tick(1.8*tilesY())
+                        clock.tick(3*tilesY())
                     gridOffset[1] -= tilesY()
             #Toggle squares -->
             elif event.type == pygame.MOUSEBUTTONDOWN:
