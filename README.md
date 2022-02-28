@@ -1,7 +1,7 @@
 # Conway's Game of Life
 Recreation of Conway's Game of Life in Python
 
-Use arrow keys to shift your view, space to start and pause the game, click on tiles to switch them on or off, and finally **esc** to exit. <br/>
+Use arrow keys to shift your view, space to start and pause the game, click on tiles to switch them on or off, and finally **esc** to exit. You can also use the scroll wheel to zoom in and out, and change the speed with the slider in the bottom right. <br/>
 
 ---
 
@@ -22,4 +22,4 @@ nuitka --onefile --windows-icon-from-ico=game-of-life.ico --windows-disable-cons
 ---
 
 **Problems:** <br/><br/>
-The theoretically infinite grid in this is only **200x200** due to processing constraints. This is because the algorithim that advances tiles to the next generation checks through *every single* tile in the plane, and every time it checks one tile, it also checks the surrounding 8 tiles, which means it checks about **360,000** tiles multiple times per second. This is obviously not ideal, and there will probably be optimizations in the future, such as only checking tiles surrounding living tiles, or using numpy arrays, which could save lots of processing power, but may still struggle with big patterns. As of now if a tile reaches the edge it simply loops back around, which shouldn't affect small patterns too much.
+The theoretically infinite grid is only **1000x1000** due to processing constraints and loading times. It may be able to handle sizes above this due to recent optimizations, but it has not been tested.
