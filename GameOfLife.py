@@ -1,11 +1,11 @@
-import pygame, sys, math, ctypes
+import pygame, sys, math
 import numpy as np
-user32 = ctypes.windll.user32
-user32.SetProcessDPIAware()
+from Xlib.display import Display
+display = Display(':0').screen()
 
 #Constants
-SCREEN_WIDTH = user32.GetSystemMetrics(0)
-SCREEN_HEIGHT = user32.GetSystemMetrics(1)
+SCREEN_WIDTH = display.width_in_pixels
+SCREEN_HEIGHT = display.height_in_pixels
 WHITE = (255, 255, 255)
 RED   = (255,   0,   0)
 BLACK = (0, 0, 0)
