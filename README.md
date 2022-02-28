@@ -5,7 +5,7 @@ Use arrow keys to shift your view, space to start and pause the game, click on t
 
 ---
 
-If the attached exe does not work, or you are not on a windows machine, I would reccomend using Nuitka. This is because Nuitka compiles python to C, causing it to be detected by much fewer antivirus programs, unlike pyinstaller.<br/><br/>
+If the attached exe does not work, or you are not on a windows machine, I would reccomend using Nuitka. This is because Nuitka compiles Python to C, causing it to be detected by much fewer antivirus programs, unlike pyinstaller.<br/><br/>
 For *Windows* I used these commands, but you can find the documentation [here](https://nuitka.net/doc/user-manual.html):
 
 ```
