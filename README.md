@@ -12,7 +12,12 @@ For *Windows* I used these commands:
 python -m pip install nuitka
 
 nuitka --onefile --windows-icon-from-ico=GameOfLife.ico --windows-disable-console --enable-plugin=numpy --mingw64 GameOfLife.py
-```
+``` 
+<br/>
+
+**Optional:** For extra compression, install the *zstandard* library with this command:
+
+```python -m pip install zstandard```
 
 ---
 
