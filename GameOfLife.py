@@ -165,13 +165,13 @@ def Update():
         pygame.draw.rect(screen, DARK_GREY, pause2)
     sliderBack = pygame.Rect(SCREEN_WIDTH-equivilant10px*26, SCREEN_HEIGHT-equivilant10px*4, equivilant10px*22, equivilant10px*2)
     sliderOutline = pygame.Rect((SCREEN_WIDTH-equivilant10px*25)-2, (SCREEN_HEIGHT-equivilant10px*4)-2, (equivilant10px*20)+4, (equivilant10px*2)+4)
-#    pygame.draw.circle(screen,WHITE,(SCREEN_WIDTH-equivilant10px*25),(SCREEN_HEIGHT-equivilant10px*3)),11) #(Untested)
-#    pygame.draw.circle(screen,DARK_GREY,(sliderPos,(SCREEN_HEIGHT-equivilant10px*4)+1),9) #(Untested)
     slider = pygame.Rect(sliderPos, (SCREEN_HEIGHT-equivilant10px*4)+1, (equivilant10px*2)-2, (equivilant10px*2)-2)
     pygame.draw.rect(screen, WHITE, sliderBack)
     pygame.draw.rect(screen, DARK_GREY, sliderOutline, 2)
     pygame.draw.rect(screen, DARK_GREY, slider)
-#    pygame.draw.circle(screen,DARK_GREY,(sliderPos,(SCREEN_HEIGHT-equivilant10px*4)+1),9) #(Untested)
+#    pygame.draw.circle(screen,DARK_GREY,(SCREEN_WIDTH-equivilant10px*25),(SCREEN_HEIGHT-equivilant10px*3)),11, 2) #(Untested)
+#    pygame.draw.circle(screen,WHITE,(SCREEN_WIDTH-equivilant10px*25),(SCREEN_HEIGHT-equivilant10px*3)),10) #(Untested)
+#    pygame.draw.circle(screen,DARK_GREY,(sliderPos,SCREEN_HEIGHT-equivilant10px*3),9) #(Untested)
     pygame.display.flip()
 
 def main():
@@ -253,6 +253,10 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     mousePos = pygame.mouse.get_pos() # get the mouse posistion
+#                    sqx = (x - sliderPos)**2 
+#                    sqy = (y - SCREEN_HEIGHT-equivilant10px*3)**2
+
+#                    if math.sqrt(sqx + sqy) < 100: #Distance formula for circular slider (Untested)
                     if sliderBack.collidepoint(mousePos):
                         sliderMove = True
                     else:
