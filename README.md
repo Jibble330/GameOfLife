@@ -11,7 +11,7 @@ For *Windows* I used these commands:
 ```
 python -m pip install nuitka
 
-nuitka --onefile --windows-icon-from-ico=game-of-life.ico --windows-disable-console --mingw64 GameOfLife.py
+nuitka --onefile --windows-icon-from-ico=GameOfLife.ico --windows-disable-console --enable-plugin=numpy --mingw64 GameOfLife.py
 ```
 
 ---
