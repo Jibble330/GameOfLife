@@ -1,17 +1,15 @@
-import pygame, sys, math
+import pygame, sys, math, ctypes
 import numpy as np
-from Xlib.display import Display
-display = Display(':0').screen()
+user32 = ctypes.windll.user32
+user32.SetProcessDPIAware()
 
 #Constants
-SCREEN_WIDTH = display.width_in_pixels
-SCREEN_HEIGHT = display.height_in_pixels
+SCREEN_WIDTH = user32.GetSystemMetrics(0)
+SCREEN_HEIGHT = user32.GetSystemMetrics(1)
 WHITE = (255, 255, 255)
-RED   = (255,   0,   0)
 BLACK = (0, 0, 0)
 GREY = (120, 120, 120)
 DARK_GREY = (20, 20, 20)
-BLUE = (56, 132, 255)
 FPS = 60
 
 scroll = 0
@@ -232,19 +230,19 @@ def main():
                     gridOffset[0] += tilesX()
                 #Move down
                 elif event.key == pygame.K_DOWN:
-                    for x in range(int(3*tilesY())):
+                    for x in range(int(5.5*tilesY())):
                         screen.fill(WHITE)
-                        renderTiles(0, x/-3)
+                        renderTiles(0, x/-5.5)
                         Update()
-                        clock.tick(3*tilesY())
+                        clock.tick(5.5*tilesY())
                     gridOffset[1] += tilesY()
                 #Move up
                 elif event.key == pygame.K_UP:
-                    for x in range(int(3*tilesY())):
+                    for x in range(int(5.5*tilesY())):
                         screen.fill(WHITE)
-                        renderTiles(0, x/3)
+                        renderTiles(0, x/5.5)
                         Update()
-                        clock.tick(3*tilesY())
+                        clock.tick(5.5*tilesY())
                     gridOffset[1] -= tilesY()
             #Toggle squares -->
             elif event.type == pygame.MOUSEBUTTONDOWN:
