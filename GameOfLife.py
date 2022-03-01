@@ -169,6 +169,10 @@ def Update():
     pygame.draw.circle(screen, DARK_GREY, (sliderPos, SCREEN_HEIGHT-equivilant10px*3), equivilant10px*.9)
     pygame.display.flip()
 
+def quit():
+    print("Exiting...")
+    sys.exit()
+
 def main():
     global tileSize
     global screen
@@ -208,14 +212,18 @@ def main():
             #Get key events -->
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    print("Exiting...")
-                    sys.exit()
+                    quit()
                 #Toggle pause -->
                 elif event.key == pygame.K_SPACE:
                     paused = not paused
                  #Move left
                 elif event.key == pygame.K_LEFT:
                     for x in range(int(1.8*tilesX())):
+                        for event in pygame.event.get():
+                            #Check for escape -->
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_ESCAPE:
+                                    quit()
                         screen.fill(WHITE)
                         renderTiles(x/1.8, 0)
                         Update()
@@ -224,6 +232,11 @@ def main():
                 #Move right
                 elif event.key == pygame.K_RIGHT:
                     for x in range(int(1.8*tilesX())):
+                        for event in pygame.event.get():
+                            #Check for escape -->
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_ESCAPE:
+                                    quit()
                         screen.fill(WHITE)
                         renderTiles(x/-1.8, 0)
                         Update()
@@ -232,6 +245,11 @@ def main():
                 #Move down
                 elif event.key == pygame.K_DOWN:
                     for x in range(int(3*tilesY())):
+                        for event in pygame.event.get():
+                            #Check for escape -->
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_ESCAPE:
+                                    quit()
                         screen.fill(WHITE)
                         renderTiles(0, x/-3)
                         Update()
@@ -240,6 +258,11 @@ def main():
                 #Move up
                 elif event.key == pygame.K_UP:
                     for x in range(int(3*tilesY())):
+                        for event in pygame.event.get():
+                            #Check for escape -->
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_ESCAPE:
+                                    quit()
                         screen.fill(WHITE)
                         renderTiles(0, x/3)
                         Update()
@@ -281,4 +304,6 @@ def main():
         renderTiles(0, 0)
         Update()
         clock.tick(FPS)
-main()
+
+if __name__ == '__main__':
+    main()
