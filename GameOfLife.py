@@ -7,9 +7,11 @@ user32.SetProcessDPIAware()
 SCREEN_WIDTH = user32.GetSystemMetrics(0)
 SCREEN_HEIGHT = user32.GetSystemMetrics(1)
 WHITE = (255, 255, 255)
+RED   = (255,   0,   0)
 BLACK = (0, 0, 0)
 GREY = (120, 120, 120)
 DARK_GREY = (20, 20, 20)
+BLUE = (56, 132, 255)
 FPS = 60
 
 scroll = 0
@@ -119,9 +121,9 @@ def getSurrounding(x, y): #Get the number of alive tiles arround 1 tile
     return surround
 
 def renderTiles(offsetX, offsetY):
-    for x in range(0-int(offsetX*tileSize), SCREEN_WIDTH+abs(int(offsetX*tileSize)), tileSize):
-        for y in range(0-int(offsetY*tileSize), SCREEN_HEIGHT+abs(int(offsetY*tileSize)), tileSize):
-            rect = pygame.Rect(x+round(offsetX)*tileSize, y+round(offsetY)*tileSize, tileSize, tileSize)
+    for x in range(0-round(offsetX)*tileSize, SCREEN_WIDTH+abs(round(offsetX)*tileSize), tileSize):
+        for y in range(0-round(offsetY)*tileSize, SCREEN_HEIGHT+abs(round(offsetY)*tileSize), tileSize):
+            rect = pygame.Rect(round(x+offsetX*tileSize), round(y+offsetY*tileSize), tileSize, tileSize)
             x_coord = int(x/tileSize)
             y_coord = int(y/tileSize)
             if getValue(x_coord+gridOffset[0], y_coord+gridOffset[1]) == 1:
@@ -131,13 +133,7 @@ def renderTiles(offsetX, offsetY):
 
 def Init(): 
     global coordinateGrid
-    print("Initializing...")
-    for y in range(gridSize):
-        baseRow = []
-        for x in range(gridSize):
-            baseRow.append(0)
-        coordinateGrid.append(baseRow)
-    coordinateGrid = np.array(coordinateGrid)
+    coordinateGrid = np.full((gridSize, gridSize), 0)
 
 def getValue(x, y):
     realX = x%gridSize
@@ -161,12 +157,16 @@ def Update():
         pause2 = pygame.Rect(SCREEN_WIDTH-equivilant10px*8, equivilant10px*3, equivilant10px*2, equivilant10px*6)
         pygame.draw.rect(screen, DARK_GREY, pause1)
         pygame.draw.rect(screen, DARK_GREY, pause2)
-    sliderBack = pygame.Rect(SCREEN_WIDTH-equivilant10px*26, SCREEN_HEIGHT-equivilant10px*4, equivilant10px*22, equivilant10px*2)
-    sliderOutline = pygame.Rect((SCREEN_WIDTH-equivilant10px*26)-2, (SCREEN_HEIGHT-equivilant10px*4)-2, (equivilant10px*20)+4, (equivilant10px*2)+4)
-    slider = pygame.Rect(sliderPos, (SCREEN_HEIGHT-equivilant10px*4)+1, (equivilant10px*2)-2, (equivilant10px*2)-2)
-    pygame.draw.rect(screen, WHITE, sliderBack)
+    sliderBack = pygame.Rect(SCREEN_WIDTH-equivilant10px*26, SCREEN_HEIGHT-equivilant10px*4, (equivilant10px*22)+1, equivilant10px*2)
+    sliderOutline = pygame.Rect((SCREEN_WIDTH-equivilant10px*26)-2, (SCREEN_HEIGHT-equivilant10px*4)-2, (equivilant10px*22)+5, (equivilant10px*2)+4)
+    pygame.draw.circle
     pygame.draw.rect(screen, DARK_GREY, sliderOutline, 2)
-    pygame.draw.rect(screen, DARK_GREY, slider)
+    pygame.draw.circle(screen, WHITE, (SCREEN_WIDTH-equivilant10px*26, SCREEN_HEIGHT-equivilant10px*3), equivilant10px+2) #Beginning outline
+    pygame.draw.circle(screen, DARK_GREY, (SCREEN_WIDTH-equivilant10px*26, SCREEN_HEIGHT-equivilant10px*3), equivilant10px+2, 2) #Beginning outline
+    pygame.draw.circle(screen, WHITE, (SCREEN_WIDTH-equivilant10px*4, SCREEN_HEIGHT-equivilant10px*3), equivilant10px+2) #End fill
+    pygame.draw.circle(screen, DARK_GREY, (SCREEN_WIDTH-equivilant10px*4, SCREEN_HEIGHT-equivilant10px*3), equivilant10px+2, 2) #End outline
+    pygame.draw.rect(screen, WHITE, sliderBack)
+    pygame.draw.circle(screen, DARK_GREY, (sliderPos, SCREEN_HEIGHT-equivilant10px*3), equivilant10px*.9)
     pygame.display.flip()
 
 def main():
@@ -177,6 +177,7 @@ def main():
     global paused
     global speed
     global sliderPos
+    global scroll
     print("Starting...")
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -193,15 +194,15 @@ def main():
         #Get events -->
         if sliderMove:
             mousePos = pygame.mouse.get_pos()
-            if mousePos[0] > SCREEN_WIDTH-equivilant10px*25 and mousePos[0] < SCREEN_WIDTH-equivilant10px*5:
-                sliderPos = mousePos[0]-equivilant10px
-                speed = ((mousePos[0]-(SCREEN_WIDTH-equivilant10px*25))/(equivilant10px*3.33))
-            elif mousePos[0] > SCREEN_WIDTH-equivilant10px*25:
-                sliderPos = SCREEN_WIDTH-equivilant10px*6
-                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*26))/(equivilant10px*3.33))
-            elif mousePos[0] < SCREEN_WIDTH-equivilant10px*5:
+            if mousePos[0] > SCREEN_WIDTH-equivilant10px*26 and mousePos[0] < SCREEN_WIDTH-equivilant10px*4:
+                sliderPos = mousePos[0]
+                speed = ((mousePos[0]-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))
+            elif mousePos[0] > SCREEN_WIDTH-equivilant10px*26:
+                sliderPos = SCREEN_WIDTH-equivilant10px*4
+                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))
+            elif mousePos[0] < SCREEN_WIDTH-equivilant10px*4:
                 sliderPos = (SCREEN_WIDTH-equivilant10px*26)+1
-                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*26))/(equivilant10px*3.33))
+                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))
         
         for event in pygame.event.get():
             #Get key events -->
@@ -230,20 +231,23 @@ def main():
                     gridOffset[0] += tilesX()
                 #Move down
                 elif event.key == pygame.K_DOWN:
-                    for x in range(int(5.5*tilesY())):
+                    for x in range(int(3*tilesY())):
                         screen.fill(WHITE)
-                        renderTiles(0, x/-5.5)
+                        renderTiles(0, x/-3)
                         Update()
-                        clock.tick(5.5*tilesY())
+                        clock.tick(3*1.8*tilesY())
                     gridOffset[1] += tilesY()
                 #Move up
                 elif event.key == pygame.K_UP:
-                    for x in range(int(5.5*tilesY())):
+                    for x in range(int(3*tilesY())):
                         screen.fill(WHITE)
-                        renderTiles(0, x/5.5)
+                        renderTiles(0, x/3)
                         Update()
-                        clock.tick(5.5*tilesY())
+                        clock.tick(3*1.8*tilesY())
                     gridOffset[1] -= tilesY()
+                elif event.key == pygame.K_r:
+                    if paused:
+                        Init()
             #Toggle squares -->
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -261,7 +265,6 @@ def main():
                 sliderMove = False
             #Zoom -->
             elif event.type == pygame.MOUSEWHEEL:
-                global scroll
                 if scroll < 15 and event.y == -1:
                     scroll -= event.y
                     gridOffset[0] -= round(tilesX()/20)
@@ -271,7 +274,7 @@ def main():
                     gridOffset[0] += round(tilesX()/20)
                     gridOffset[1] += round(tilesY()/20)
                 tileSize = round(SCREEN_HEIGHT/(21.6*((scroll+10)/10)))
-        if not paused and frame%round(FPS/speed) == 0:
+        if not paused and frame%round(FPS/(speed*2)) == 0:
             nextGen()
         #Render next frame -->
         screen.fill(WHITE)
