@@ -297,11 +297,9 @@ def main():
                     gridOffset[0] += round(tilesX()/20)
                     gridOffset[1] += round(tilesY()/20)
                 tileSize = round(SCREEN_HEIGHT/(21.6*((scroll+10)/10)))
-        if not paused and frame%round(FPS/(speed*2)) == 0:
+        if not paused and frame%round(FPS/speed) == 0:
             nextGen()
         #Render next frame -->
-        screen.fill(WHITE)
-        renderTiles(0, 0)
         Update()
         clock.tick(FPS)
 
