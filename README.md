@@ -22,7 +22,7 @@ nuitka --onefile --windows-icon-from-ico=GameOfLife.ico --windows-disable-consol
 ---
 
 **Example of how it plays:**
-![Conway's Game of Life](https://user-images.githubusercontent.com/87543311/155927974-27a157e5-8073-4196-a0ec-a4a2668efcce.gif)
+![Conway's Game of Life](https://user-images.githubusercontent.com/87543311/156297469-aa436eaa-84ab-4dc9-ae86-ec7de6b4c4ba.gif)
 
 ---
 
