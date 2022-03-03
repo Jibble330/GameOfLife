@@ -300,6 +300,8 @@ def main():
         if not paused and frame%round(FPS/speed) == 0:
             nextGen()
         #Render next frame -->
+        screen.fill(WHITE)
+        renderTiles(0, 0)
         Update()
         clock.tick(FPS)
 
