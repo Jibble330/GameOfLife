@@ -22,6 +22,7 @@ surroundGrid = []
 paused = True
 frame = 0
 equivilant10px = round(SCREEN_HEIGHT/108)
+updateList = []
 
 def tilesX():
     return math.floor(SCREEN_WIDTH/tileSize)
@@ -29,9 +30,10 @@ def tilesX():
 def tilesY():
     return math.floor(SCREEN_HEIGHT/tileSize)
 
-gridOffset = [round((gridSize/2)-(tilesX()/2)), round((gridSize/2)-(tilesY()/2))]
+gridOffset = [0, 0]
 
 def nextGen(): #Advance to the next generation
+    global updateList
     updateList = getUpdate()
     surroundUpdate(updateList)
     for i in updateList:
@@ -120,16 +122,28 @@ def getSurrounding(x, y): #Get the number of alive tiles arround 1 tile
         surround += coordinateGrid[y,0]
     return surround
 
-def renderTiles(offsetX, offsetY):
-    for x in range(0-round(offsetX)*tileSize, SCREEN_WIDTH+abs(round(offsetX)*tileSize), tileSize):
-        for y in range(0-round(offsetY)*tileSize, SCREEN_HEIGHT+abs(round(offsetY)*tileSize), tileSize):
-            rect = pygame.Rect(round(x+offsetX*tileSize), round(y+offsetY*tileSize), tileSize, tileSize)
-            x_coord = int(x/tileSize)
-            y_coord = int(y/tileSize)
-            if getValue(x_coord+gridOffset[0], y_coord+gridOffset[1]) == 1:
+def renderTiles():
+    offsetX, offsetY = gridOffset
+    for x in range(0-offsetX%tileSize, SCREEN_WIDTH+abs(offsetX%tileSize), tileSize):
+        for y in range(0-offsetY%tileSize, SCREEN_HEIGHT+abs(offsetY%tileSize), tileSize):
+            rect = pygame.Rect(x, y, tileSize, tileSize)
+            xCoord = round(x/tileSize+offsetX/tileSize)
+            yCoord = round(y/tileSize+offsetY/tileSize)
+            if getValue(xCoord, yCoord) == 1:
                 pygame.draw.rect(screen, BLACK, rect)
             else:
                 pygame.draw.rect(screen, GREY, rect, 1)
+                
+#def renderTiles(offsetX, offsetY):
+#    for x in range(0-round(offsetX)*tileSize, SCREEN_WIDTH+abs(round(offsetX)*tileSize), tileSize):
+#        for y in range(0-round(offsetY)*tileSize, SCREEN_HEIGHT+abs(round(offsetY)*tileSize), tileSize):
+#            rect = pygame.Rect(round(x+offsetX*tileSize), round(y+offsetY*tileSize), tileSize, tileSize)
+#            x_coord = int(x/tileSize)
+#            y_coord = int(y/tileSize)
+#            if getValue(x_coord+gridOffset[0], y_coord+gridOffset[1]) == 1:
+#                pygame.draw.rect(screen, BLACK, rect)
+#            else:
+#                pygame.draw.rect(screen, GREY, rect, 1)
 
 def Init(): 
     global coordinateGrid
@@ -192,22 +206,11 @@ def main():
     sliderMove = False
     sliderPos = round(equivilant10px*3.3)+SCREEN_WIDTH-equivilant10px*26
     speed = 2
+    drag = False
+    dragPos = [0, 0]
     while True:
-        #Frame counter -->
-        frame += 1
+        frame += 1 #Frame counter
         #Get events -->
-        if sliderMove:
-            mousePos = pygame.mouse.get_pos()
-            if mousePos[0] > SCREEN_WIDTH-equivilant10px*26 and mousePos[0] < SCREEN_WIDTH-equivilant10px*4:
-                sliderPos = mousePos[0]
-                speed = ((mousePos[0]-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))
-            elif mousePos[0] > SCREEN_WIDTH-equivilant10px*26:
-                sliderPos = SCREEN_WIDTH-equivilant10px*4
-                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))
-            elif mousePos[0] < SCREEN_WIDTH-equivilant10px*4:
-                sliderPos = (SCREEN_WIDTH-equivilant10px*26)+1
-                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))
-        
         for event in pygame.event.get():
             #Get key events -->
             if event.type == pygame.KEYDOWN:
@@ -225,7 +228,7 @@ def main():
                                 if event.key == pygame.K_ESCAPE:
                                     quit()
                         screen.fill(WHITE)
-                        renderTiles(x/1.8, 0)
+                        renderTiles()
                         Update()
                         clock.tick(1.8*tilesX())
                     gridOffset[0] -= tilesX()
@@ -238,7 +241,7 @@ def main():
                                 if event.key == pygame.K_ESCAPE:
                                     quit()
                         screen.fill(WHITE)
-                        renderTiles(x/-1.8, 0)
+                        renderTiles()
                         Update()
                         clock.tick(1.8*tilesX())
                     gridOffset[0] += tilesX()
@@ -251,7 +254,7 @@ def main():
                                 if event.key == pygame.K_ESCAPE:
                                     quit()
                         screen.fill(WHITE)
-                        renderTiles(0, x/-3)
+                        renderTiles()
                         Update()
                         clock.tick(3*1.8*tilesY())
                     gridOffset[1] += tilesY()
@@ -264,7 +267,7 @@ def main():
                                 if event.key == pygame.K_ESCAPE:
                                     quit()
                         screen.fill(WHITE)
-                        renderTiles(0, x/3)
+                        renderTiles()
                         Update()
                         clock.tick(3*1.8*tilesY())
                     gridOffset[1] -= tilesY()
@@ -273,19 +276,24 @@ def main():
                         Init()
             #Toggle squares -->
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouseX, mouseY = pygame.mouse.get_pos() # get the mouse posistion
                 if event.button == 1:
-                    mousePos = pygame.mouse.get_pos() # get the mouse posistion
-                    if sliderBack.collidepoint(mousePos):
+                    if sliderBack.collidepoint((mouseX, mouseY)):
                         sliderMove = True
                     else:
                         if paused:
-                            mouse_x, mouse_y = event.pos
-                            mouseXCoord = math.floor(mouse_x/tileSize)
-                            mouseYCoord = math.floor(mouse_y/tileSize)
-                            setValue(mouseXCoord+gridOffset[0], mouseYCoord+gridOffset[1], 1 - getValue(mouseXCoord+gridOffset[0], mouseYCoord+gridOffset[1]))
+                            mouseXCoord = ((mouseX + gridOffset[0])//tileSize)
+                            mouseYCoord = (mouseY + gridOffset[1])//tileSize
+                            setValue(mouseXCoord, mouseYCoord, 1 - getValue(mouseXCoord, mouseYCoord))
+                elif event.button == 2:
+                    drag = True
+                    dragPos = [mouseX, mouseY]
             
             elif event.type == pygame.MOUSEBUTTONUP:
-                sliderMove = False
+                if event.button == 1:
+                    sliderMove = False
+                if event.button == 2:
+                    drag = False
             #Zoom -->
             elif event.type == pygame.MOUSEWHEEL:
                 if scroll < 15 and event.y == -1:
@@ -297,11 +305,33 @@ def main():
                     gridOffset[0] += round(tilesX()/20)
                     gridOffset[1] += round(tilesY()/20)
                 tileSize = round(SCREEN_HEIGHT/(21.6*((scroll+10)/10)))
+                
+        if sliderMove:
+            mousePos = pygame.mouse.get_pos()
+            if mousePos[0] > SCREEN_WIDTH-equivilant10px*26 and mousePos[0] < SCREEN_WIDTH-equivilant10px*4:
+                sliderPos = mousePos[0]
+                speed = ((mousePos[0]-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))
+            elif mousePos[0] > SCREEN_WIDTH-equivilant10px*26:
+                sliderPos = SCREEN_WIDTH-equivilant10px*4
+                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))
+            elif mousePos[0] < SCREEN_WIDTH-equivilant10px*4:
+                sliderPos = (SCREEN_WIDTH-equivilant10px*26)+1
+                speed = ((sliderPos-(SCREEN_WIDTH-equivilant10px*27))/(equivilant10px*3.33))        
+                
+        if drag:
+            mouseX, mouseY = pygame.mouse.get_pos()
+            previousX, previousY = dragPos
+            gridOffset[0] -= mouseX - previousX
+            gridOffset[1] -= mouseY - previousY
+            dragPos = [mouseX, mouseY]
+                
         if not paused and frame%round(FPS/speed) == 0:
             nextGen()
         #Render next frame -->
+#        gridOffset[0] += 1
+#        gridOffset[1] += 1
         screen.fill(WHITE)
-        renderTiles(0, 0)
+        renderTiles()
         Update()
         clock.tick(FPS)
 
