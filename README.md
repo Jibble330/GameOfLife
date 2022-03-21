@@ -1,7 +1,7 @@
 # Conway's Game of Life
 Recreation of Conway's Game of Life in Python
 
-Use arrow keys to shift your view, space to start and pause the game, click on tiles to toggle them on or off, and finally **esc** to exit. You can also use the scroll wheel to zoom in and out, and change the speed with the slider in the bottom right. <br/>
+Use the middle mouse button to move around, space to start and pause the game, click on tiles to toggle them on or off, and finally **esc** to exit. You can also use the scroll wheel to zoom in and out, and change the speed with the slider in the bottom right. <br/>
 
 ---
 
@@ -22,7 +22,7 @@ nuitka --onefile --windows-icon-from-ico=GameOfLife.ico --windows-disable-consol
 ---
 
 **Example of how it plays:**
-![Conway's Game of Life](https://user-images.githubusercontent.com/87543311/156297469-aa436eaa-84ab-4dc9-ae86-ec7de6b4c4ba.gif)
+![Conway's Game of Life](https://user-images.githubusercontent.com/87543311/159214315-5f2e6621-a5a0-4055-861a-a94c7dc36fd0.gif)
 
 ---
 
